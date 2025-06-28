@@ -1,0 +1,17 @@
+@{
+    ViewBag.Title = "Registro Exitoso";
+}
+<main aria-labelledby="title">
+    <h2 id="title">Registro Exitoso</h2>
+    <div class="alert alert-success" role="alert">
+        @if (TempData["Mensaje"] != null)
+        {
+            <p>@TempData["Mensaje"]</p>
+        }
+        else
+        {
+            <p>El colaborador ha sido registrado exitosamente en el sistema.</p>
+        }
+    </div>
+    <a href="@Url.Action("Index", "Home")" class="btn btn-primary">Ir al inicio</a>
+</main>

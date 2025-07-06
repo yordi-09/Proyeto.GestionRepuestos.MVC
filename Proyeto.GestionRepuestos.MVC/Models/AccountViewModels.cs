@@ -87,6 +87,12 @@ namespace Proyeto.GestionRepuestos.MVC.Models
         [Display(Name = "Confirmar contraseña")]
         [Compare("Password", ErrorMessage = "La contraseña y la contraseña de confirmación no coinciden.")]
         public string ConfirmPassword { get; set; }
+
+        [Required]
+        [Display(Name = "Rol")]
+        public string SelectedRole { get; set; }
+
+        public IEnumerable<System.Web.Mvc.SelectListItem> Roles { get; set; }
     }
 
     public class ResetPasswordViewModel

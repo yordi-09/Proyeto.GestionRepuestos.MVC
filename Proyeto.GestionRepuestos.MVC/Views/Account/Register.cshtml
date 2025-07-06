@@ -31,6 +31,13 @@
                 @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
             </div>
         </div>
+        <div class="form-group">
+            @Html.LabelFor(m => m.SelectedRole, "Rol", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownListFor(m => m.SelectedRole, Model.Roles, "-- Seleccione un rol --", new { @class = "form-control" })
+                @Html.ValidationMessageFor(m => m.SelectedRole, "", new { @class = "text-danger" })
+            </div>
+        </div>
         <div class="row">
             @Html.LabelFor(m => m.Password, new { @class = "col-md-2 col-form-label" })
             <div class="col-md-10">

@@ -1,0 +1,14 @@
+@model Microsoft.AspNet.Identity.EntityFramework.IdentityRole
+@{
+    ViewBag.Title = "Eliminar Rol";
+}
+<h2>Eliminar Rol</h2>
+<h3>¿Está seguro que desea eliminar el rol "@Model.Name"?</h3>
+@using (Html.BeginForm("Delete", "Roles", FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+    @Html.HiddenFor(m => m.Id)
+    <button type="submit" class="btn btn-danger">Eliminar</button>
+    @Html.ActionLink("Cancelar", "Index", null, new { @class = "btn btn-default" })
+}
+@Html.ValidationSummary()

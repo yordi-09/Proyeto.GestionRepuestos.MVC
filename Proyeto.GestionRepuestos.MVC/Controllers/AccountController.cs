@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Security.Claims;
@@ -139,7 +140,19 @@ namespace Proyeto.GestionRepuestos.MVC.Controllers
         [AllowAnonymous]
         public ActionResult Register()
         {
-            return View();
+            var roleManager = HttpContext.GetOwinContext().Get<ApplicationRoleManager>();
+            List<SelectListItem> roles = roleManager.Roles.Select(r => new SelectListItem
+            {
+                Value = r.Name,
+                Text = r.Name
+            }).ToList();
+
+            var model = new RegisterViewModel
+            {
+                Roles = roles
+            };
+
+            return View(model);
         }
 
         //
@@ -160,13 +173,20 @@ namespace Proyeto.GestionRepuestos.MVC.Controllers
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
-                    //await SignInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false);
-                    TempData["Mensaje"] = "Colaborador registrado exitosamente.";
+                    //await SignInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false); 
+                    // Asignar el rol seleccionado
+                    await UserManager.AddToRoleAsync(user.Id, model.SelectedRole);
                     return RedirectToAction("RegistroExitoso", "Account");
                 }
                 AddErrors(result);
             }
             // Si llegamos a este punto, es que se ha producido un error y volvemos a mostrar el formulario
+            var roleManager = HttpContext.GetOwinContext().Get<ApplicationRoleManager>();
+            model.Roles = roleManager.Roles.Select(r => new SelectListItem
+            {
+                Value = r.Name,
+                Text = r.Name
+            }).ToList();
             return View(model);
         }
 

@@ -34,10 +34,14 @@
                                 <li>@Html.ActionLink("Registrar Usuario", "Register", "Account", routeValues: null, htmlAttributes: new { id = "registerLink", @class = "nav-link" })</li>
                                 <li>@Html.ActionLink("Administrar Roles", "Index", "Roles", new { area = "" }, new { @class = "nav-link" })</li>
                             }
-                            else
+                            else if (User.IsInRole("Mecanico"))
                             {
-                                <li>@Html.ActionLink("Contacto", "Contact", "Home", new { area = "" }, new { @class = "nav-link" })</li>
-
+                                <li>@Html.ActionLink("Solicitar Repuestos", "Solicitar", "Repuestos", null, new { @class = "nav-link" })</li>
+                            }
+                            else if (User.IsInRole("EncargadoBodega"))
+                            {
+                                <li>@Html.ActionLink("Repuestos", "Index", "Repuestos", null, new { @class = "nav-link" })</li>
+                                <li>@Html.ActionLink("Administrar solicitudes de  repuestos", "AdministrarSolicitudes", "Repuestos", null, new { @class = "nav-link" })</li>
                             }
                         }
                     </ul>

@@ -1,0 +1,43 @@
+@model Proyeto.GestionRepuestos.MVC.Models.Repuesto
+@{
+    ViewBag.Title = "Ingresar Nuevo Repuesto";
+}
+
+<main aria-labelledby="title">
+    <h2 id="title">@ViewBag.Title</h2>
+
+    @if (TempData["SuccessMessage"] != null)
+    {
+        <div class="alert alert-success">@TempData["SuccessMessage"]</div>
+    }
+
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+        <div class="form-group">
+            @Html.LabelFor(m => m.Nombre)
+            @Html.TextBoxFor(m => m.Nombre, new { @class = "form-control" })
+            @Html.ValidationMessageFor(m => m.Nombre)
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(m => m.Descripcion)
+            @Html.TextBoxFor(m => m.Descripcion, new { @class = "form-control" })
+            @Html.ValidationMessageFor(m => m.Descripcion)
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(m => m.CantidadDisponible)
+            @Html.TextBoxFor(m => m.CantidadDisponible, new { @class = "form-control", type = "number", min = "1" })
+            @Html.ValidationMessageFor(m => m.CantidadDisponible)
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(m => m.Precio)
+            @Html.TextBoxFor(m => m.Precio, new { @class = "form-control", type = "number", step = "0.01", min = "0.01" })
+            @Html.ValidationMessageFor(m => m.Precio)
+        </div>
+        <button type="submit" class="btn btn-primary">Ingresar</button>
+    }
+</main>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

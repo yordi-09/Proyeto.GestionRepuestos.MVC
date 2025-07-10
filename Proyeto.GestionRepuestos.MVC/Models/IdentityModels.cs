@@ -32,5 +32,32 @@ namespace Proyeto.GestionRepuestos.MVC.Models
         {
             return new ApplicationDbContext();
         }
+
+        public DbSet<Repuesto> Repuestos { get; set; }
+        public DbSet<SolicitudRepuesto> SolicitudesRepuestos { get; set; }
+        public DbSet<EntregaRepuesto> EntregasRepuestos { get; set; }
+
+        protected override void OnModelCreating(DbModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
+
+            modelBuilder.Entity<SolicitudRepuesto>()
+                .HasRequired(s => s.UsuarioSolicitador)
+                .WithMany()
+                .HasForeignKey(s => s.UsuarioSolicitadorId)
+                .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<EntregaRepuesto>()
+                .HasRequired(e => e.UsuarioEntregador)
+                .WithMany()
+                .HasForeignKey(e => e.UsuarioEntregadorId)
+                .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<Repuesto>().ToTable("Repuesto");
+
+            modelBuilder.Entity<SolicitudRepuesto>().ToTable("SolicitudRepuesto");
+
+            //modelBuilder.Entity<EntregaRepuesto>().ToTable("EntregaRepuesto");
+        }
     }
 }

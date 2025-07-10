@@ -1,0 +1,67 @@
+﻿@model IEnumerable<Proyeto.GestionRepuestos.MVC.Models.SolicitudRepuesto>
+
+@{
+    ViewBag.Title = "SolicitudRepuesto";
+}
+
+<h2>Administrar solicitudes de repuesto</h2>
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Repuesto.Nombre)
+        </th>
+        <th>
+            Nombre del solicitador
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Repuesto.CantidadDisponible)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CantidadSolicitada)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FechaSolicitud)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Estado)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Repuesto.Nombre)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.UsuarioSolicitador.Nombre)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Repuesto.CantidadDisponible)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CantidadSolicitada)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.FechaSolicitud)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Estado)
+            </td>
+            <td>
+                @if (item.Repuesto.CantidadDisponible > item.CantidadSolicitada &&
+                     item.Estado == Proyeto.GestionRepuestos.MVC.Models.Enumerados.EstadoSolicitud.Pendiente)
+                {
+                    @Html.ActionLink("Entregar", "Entregar", new { id = item.Id })
+                }
+                else
+                {
+                    <span class="text-muted">No disponible la entrega</span>
+                }
+            </td>
+        </tr>
+    }
+
+</table>

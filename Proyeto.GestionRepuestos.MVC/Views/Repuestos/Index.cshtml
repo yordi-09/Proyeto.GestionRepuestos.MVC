@@ -1,0 +1,42 @@
+@model IEnumerable<Proyeto.GestionRepuestos.MVC.Models.Repuesto>
+@{
+    ViewBag.Title = "Administrar Repuestos";
+}
+
+<h2>@ViewBag.Title</h2>
+
+@if (TempData["EntregaSuccess"] != null)
+{
+    <div class="alert alert-success">@TempData["EntregaSuccess"]</div>
+}
+
+<br />
+<a href="@Url.Action("Create", "Repuestos")" class="btn btn-primary">Ingresar Nuevo Repuesto</a>
+<a href="@Url.Action("Solicitar", "Repuestos")" class="btn btn-info">Administrar solicitudes</a>
+<br /><br />
+
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Nombre</th>
+            <th>Descripción</th>
+            <th>Cantidad</th>
+            <th>Precio</th>
+            <th>Acciones</th>
+        </tr>
+    </thead>
+    <tbody>
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>@item.Nombre</td>
+            <td>@item.Descripcion</td>
+            <td>@item.CantidadDisponible</td>
+            <td>@item.Precio.ToString("C")</td>
+            <td>
+                @Html.ActionLink("Entregar", "Entregar", new { id = item.Id }, new { @class = "btn btn-sm btn-success" })
+            </td>
+        </tr>
+    }
+    </tbody>
+</table>

@@ -1,0 +1,56 @@
+@model Proyeto.GestionRepuestos.MVC.Models.SolicitudRepuesto
+@{
+    ViewBag.Title = "Entregar Repuesto";
+}
+
+<h2>@ViewBag.Title</h2>
+
+<div class="form-horizontal" style="max-width:500px;">
+    <div class="form-group">
+        @Html.DisplayNameFor(m => m.Repuesto.Nombre): 
+        @Html.DisplayFor(m => m.Repuesto.Nombre)
+    </div>
+    <div class="form-group">
+        @Html.DisplayNameFor(m => m.UsuarioSolicitador.Nombre):
+        @Html.DisplayFor(m => m.UsuarioSolicitador.Nombre)
+    </div>
+    <div class="form-group">
+        @Html.DisplayNameFor(m => m.Repuesto.CantidadDisponible):
+        @Html.DisplayFor(m => m.Repuesto.CantidadDisponible)
+    </div>
+    <div class="form-group">
+        @Html.DisplayNameFor(m => m.CantidadSolicitada)
+        @Html.DisplayFor(m => m.CantidadSolicitada)
+    </div>
+    <div class="form-group">
+        @Html.DisplayNameFor(m => m.FechaSolicitud)
+        @Html.DisplayFor(m => m.FechaSolicitud)
+    </div>
+</div>
+<br />
+@using (Html.BeginForm("Entregar", "Repuestos", FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+    @Html.Hidden("id", Model.Id)
+<div class="form-group">
+    <div class="form-group form-check">
+        <input type="checkbox" class="form-check-input" id="checkTodo" />
+        <label class="form-check-label" for="checkTodo">Entregar toda la cantidad solicitada (@Model.CantidadSolicitada)</label>
+    </div>
+
+    <label for="cantidadEntregada">Cantidad a entregar</label>
+    <input type="number" id="cantidadEntregada" name="cantidadEntregada" class="form-control" min="1" max="@Model.CantidadSolicitada" required />
+</div>
+    
+    <button type="submit" class="btn btn-success">Registrar Entrega</button>
+    <a href="@Url.Action("Index", "Repuestos")" class="btn btn-secondary">Cancelar</a>
+}
+@if (!ViewData.ModelState.IsValid)
+{
+    <div class="alert alert-danger">
+        @foreach (var error in ViewData.ModelState.Values.SelectMany(v => v.Errors))
+        {
+            <div>@error.ErrorMessage</div>
+        }
+    </div>
+}

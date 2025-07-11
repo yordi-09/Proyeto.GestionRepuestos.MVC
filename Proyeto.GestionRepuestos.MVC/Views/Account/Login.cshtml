@@ -4,57 +4,67 @@
     ViewBag.Title = "Iniciar sesión";
 }
 
-<main aria-labelledby="title">
-    <h2 id="title">@ViewBag.Title.</h2>
-    <div class="row">
-        <div class="col-md-8">
-            <section id="loginForm">
-                @using (Html.BeginForm("Login", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { role = "form" }))
-                {
-                    @Html.AntiForgeryToken()
-                    <h4>Utilice una cuenta local para iniciar sesión.</h4>
-                    <hr />
-                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8 col-lg-7">
+            <div class="card shadow-sm">
+                <div class="card-header bg-primary text-white">
+                    <h2 class="mb-0">@ViewBag.Title</h2>
+                </div>
+                <div class="card-body">
                     <div class="row">
-                        @Html.LabelFor(m => m.Email, new { @class = "col-md-2 col-form-label" })
-                        <div class="col-md-10">
-                            @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
-                            @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
+                        <div class="col-md-7">
+                            <section id="loginForm">
+                                @using (Html.BeginForm("Login", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { role = "form" }))
+                                {
+                                    @Html.AntiForgeryToken()
+                                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                                    <div class="mb-3 row">
+                                        @Html.LabelFor(m => m.Email, new { @class = "col-md-4 col-form-label" })
+                                        <div class="col-md-8">
+                                            @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
+                                            @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                    <div class="mb-3 row">
+                                        @Html.LabelFor(m => m.Password, new { @class = "col-md-4 col-form-label" })
+                                        <div class="col-md-8">
+                                            @Html.PasswordFor(m => m.Password, new { @class = "form-control" })
+                                            @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                    <div class="mb-3 row">
+                                        <div class="offset-md-4 col-md-8">
+                                            <div class="form-check">
+                                                @Html.CheckBoxFor(m => m.RememberMe, new { @class = "form-check-input" })
+                                                @Html.LabelFor(m => m.RememberMe, new { @class = "form-check-label" })
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="offset-md-4 col-md-8">
+                                            <input type="submit" value="Iniciar sesión" class="btn btn-outline-dark" />
+                                        </div>
+                                    </div>
+                                    <div class="row mt-2">
+                                        <div class="offset-md-4 col-md-8">
+                                            @Html.ActionLink("¿Ha olvidado su contraseña?", "ForgotPassword")
+                                        </div>
+                                    </div>
+                                }
+                            </section>
+                        </div>
+                        <div class="col-md-5 border-start">
+                            <section id="socialLoginForm">
+                                @Html.Partial("_ExternalLoginsListPartial", new ExternalLoginListViewModel { ReturnUrl = ViewBag.ReturnUrl })
+                            </section>
                         </div>
                     </div>
-                    <div class="row">
-                        @Html.LabelFor(m => m.Password, new { @class = "col-md-2 col-form-label" })
-                        <div class="col-md-10">
-                            @Html.PasswordFor(m => m.Password, new { @class = "form-control" })
-                            @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="offset-md-2 col-md-10">
-                            <div class="checkbox">
-                                @Html.CheckBoxFor(m => m.RememberMe)
-                                @Html.LabelFor(m => m.RememberMe)
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="offset-md-2 col-md-10">
-                            <input type="submit" value="Iniciar sesión" class="btn btn-outline-dark" />
-                        </div>
-                    </div>
-                        <p>
-                            @Html.ActionLink("¿Ha olvidado su contraseña?", "ForgotPassword")
-                        </p>
-                }
-            </section>
-        </div>
-        <div class="col-md-4">
-            <section id="socialLoginForm">
-                @Html.Partial("_ExternalLoginsListPartial", new ExternalLoginListViewModel { ReturnUrl = ViewBag.ReturnUrl })
-            </section>
+                </div>
+            </div>
         </div>
     </div>
-</main>
+</div>
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")

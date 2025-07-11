@@ -3,30 +3,53 @@
     ViewBag.Title = "Comprobar número de teléfono";
 }
 
-<main aria-labelledby="title">
-    <h2 id="title">@ViewBag.Title.</h2>
-
-    @using (Html.BeginForm("VerifyPhoneNumber", "Manage", FormMethod.Post, new { role = "form" }))
-    {
-        @Html.AntiForgeryToken()
-        @Html.Hidden("phoneNumber", @Model.PhoneNumber)
-        <h4>Escribir el código de verificación</h4>
-        <h5>@ViewBag.Status</h5>
-        <hr />
-        @Html.ValidationSummary("", new { @class = "text-danger" })
-        <div class="row">
-            @Html.LabelFor(m => m.Code, new { @class = "col-md-2 col-form-label" })
-            <div class="col-md-10">
-                @Html.TextBoxFor(m => m.Code, new { @class = "form-control" })
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6 col-lg-5">
+            <div class="card shadow-sm">
+                <div class="card-header bg-primary text-white">
+                    <h2 class="mb-0">@ViewBag.Title</h2>
+                </div>
+                <div class="card-body">
+                    <form action="@Url.Action("VerifyPhoneNumber", "Manage")" method="post" role="form">
+                        @Html.AntiForgeryToken()
+                        <input type="hidden" name="phoneNumber" value="@Model.PhoneNumber" />
+                        <h5 class="mb-3">Escribir el código de verificación</h5>
+                        @if (!string.IsNullOrEmpty(ViewBag.Status as string))
+                        {
+                            <div class="alert alert-info">@ViewBag.Status</div>
+                        }
+                        <hr />
+                        <div class="mb-3 row">
+                            <label for="Code" class="col-md-3 col-form-label">Código</label>
+                            <div class="col-md-9">
+                                <input type="text" 
+                                       class="form-control" 
+                                       id="Code" 
+                                       name="Code" 
+                                       value="@Model.Code"
+                                       placeholder="Ingrese el código de verificación" 
+                                       autofocus="autofocus"
+                                       aria-describedby="codeHelp" />
+                                <small id="codeHelp" class="form-text text-muted mt-1 d-block">
+                                    Ingrese el código que recibió por mensaje de texto.
+                                </small>
+                                <span class="text-danger field-validation-valid" data-valmsg-for="Code" data-valmsg-replace="true"></span>
+                            </div>
+                        </div>
+                        <div class="row mt-3">
+                            <div class="offset-md-3 col-md-9">
+                                <button type="submit" class="btn btn-primary">
+                                    Verificar
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
             </div>
         </div>
-        <div class="row">
-            <div class="offset-md-2 col-md-10">
-                <input type="submit" class="btn btn-outline-dark" value="Enviar" />
-            </div>
-        </div>
-    }
-</main>    
+    </div>
+</div>
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")

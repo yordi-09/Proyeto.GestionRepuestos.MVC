@@ -123,9 +123,22 @@ namespace Proyeto.GestionRepuestos.MVC.Controllers
                 var message = new IdentityMessage
                 {
                     Destination = model.Number,
-                    Body = "Su código de seguridad es: " + code
+                    Body = "Su código de seguridad es: " + code,
+                    
                 };
+
+                
                 await UserManager.SmsService.SendAsync(message);
+
+                var email = UserManager.GetEmail(User.Identity.GetUserId());
+
+                var emailMessage = new IdentityMessage
+                {
+                    Destination = email,
+                    Body = "Su código de seguridad es: " + code,
+
+                };
+                await UserManager.EmailService.SendAsync(emailMessage);
             }
             return RedirectToAction("VerifyPhoneNumber", new { PhoneNumber = model.Number });
         }

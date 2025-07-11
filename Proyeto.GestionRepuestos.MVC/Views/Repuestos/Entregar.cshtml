@@ -3,54 +3,54 @@
     ViewBag.Title = "Entregar Repuesto";
 }
 
-<h2>@ViewBag.Title</h2>
-
-<div class="form-horizontal" style="max-width:500px;">
-    <div class="form-group">
-        @Html.DisplayNameFor(m => m.Repuesto.Nombre): 
-        @Html.DisplayFor(m => m.Repuesto.Nombre)
-    </div>
-    <div class="form-group">
-        @Html.DisplayNameFor(m => m.UsuarioSolicitador.Nombre):
-        @Html.DisplayFor(m => m.UsuarioSolicitador.Nombre)
-    </div>
-    <div class="form-group">
-        @Html.DisplayNameFor(m => m.Repuesto.CantidadDisponible):
-        @Html.DisplayFor(m => m.Repuesto.CantidadDisponible)
-    </div>
-    <div class="form-group">
-        @Html.DisplayNameFor(m => m.CantidadSolicitada)
-        @Html.DisplayFor(m => m.CantidadSolicitada)
-    </div>
-    <div class="form-group">
-        @Html.DisplayNameFor(m => m.FechaSolicitud)
-        @Html.DisplayFor(m => m.FechaSolicitud)
+<div class="container mt-4">
+    <div class="row justify-content-center">
+        <div class="col-md-7 col-lg-6">
+            <div class="card shadow-sm">
+                <div class="card-header bg-primary text-white">
+                    <h2 class="mb-0">@ViewBag.Title</h2>
+                </div>
+                <div class="card-body">
+                    <dl class="row mb-4">
+                        <dt class="col-sm-5">Repuesto:</dt>
+                        <dd class="col-sm-7">@Html.DisplayFor(m => m.Repuesto.Nombre)</dd>
+                        <dt class="col-sm-5">Solicitador:</dt>
+                        <dd class="col-sm-7">@Html.DisplayFor(m => m.UsuarioSolicitador.Nombre)</dd>
+                        <dt class="col-sm-5">Cantidad disponible:</dt>
+                        <dd class="col-sm-7">@Html.DisplayFor(m => m.Repuesto.CantidadDisponible)</dd>
+                        <dt class="col-sm-5">Cantidad solicitada:</dt>
+                        <dd class="col-sm-7">@Html.DisplayFor(m => m.CantidadSolicitada)</dd>
+                        <dt class="col-sm-5">Fecha de solicitud:</dt>
+                        <dd class="col-sm-7">@Html.DisplayFor(m => m.FechaSolicitud)</dd>
+                    </dl>
+                    @using (Html.BeginForm("Entregar", "Repuestos", FormMethod.Post))
+                    {
+                        @Html.AntiForgeryToken()
+                        @Html.Hidden("id", Model.Id)
+                        <div class="mb-3 form-check">
+                            <input type="checkbox" class="form-check-input" id="checkTodo" onclick="document.getElementById('cantidadEntregada').value = @Model.CantidadSolicitada; document.getElementById('cantidadEntregada').readOnly = this.checked;" />
+                            <label class="form-check-label" for="checkTodo">Entregar toda la cantidad solicitada (@Model.CantidadSolicitada)</label>
+                        </div>
+                        <div class="mb-3">
+                            <label for="cantidadEntregada" class="form-label">Cantidad a entregar</label>
+                            <input type="number" id="cantidadEntregada" name="cantidadEntregada" class="form-control" min="1" max="@Model.CantidadSolicitada" required />
+                        </div>
+                        <div class="d-flex gap-2">
+                            <button type="submit" class="btn btn-success">Registrar Entrega</button>
+                            <a href="@Url.Action("Index", "Repuestos")" class="btn btn-secondary">Cancelar</a>
+                        </div>
+                    }
+                    @if (!ViewData.ModelState.IsValid)
+                    {
+                        <div class="alert alert-danger mt-3">
+                            @foreach (var error in ViewData.ModelState.Values.SelectMany(v => v.Errors))
+                            {
+                                <div>@error.ErrorMessage</div>
+                            }
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
     </div>
 </div>
-<br />
-@using (Html.BeginForm("Entregar", "Repuestos", FormMethod.Post))
-{
-    @Html.AntiForgeryToken()
-    @Html.Hidden("id", Model.Id)
-<div class="form-group">
-    <div class="form-group form-check">
-        <input type="checkbox" class="form-check-input" id="checkTodo" />
-        <label class="form-check-label" for="checkTodo">Entregar toda la cantidad solicitada (@Model.CantidadSolicitada)</label>
-    </div>
-
-    <label for="cantidadEntregada">Cantidad a entregar</label>
-    <input type="number" id="cantidadEntregada" name="cantidadEntregada" class="form-control" min="1" max="@Model.CantidadSolicitada" required />
-</div>
-    
-    <button type="submit" class="btn btn-success">Registrar Entrega</button>
-    <a href="@Url.Action("Index", "Repuestos")" class="btn btn-secondary">Cancelar</a>
-}
-@if (!ViewData.ModelState.IsValid)
-{
-    <div class="alert alert-danger">
-        @foreach (var error in ViewData.ModelState.Values.SelectMany(v => v.Errors))
-        {
-            <div>@error.ErrorMessage</div>
-        }
-    </div>
-}

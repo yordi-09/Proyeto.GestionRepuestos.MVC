@@ -3,52 +3,57 @@
     ViewBag.Title = "Administrar";
 }
 
-<main aria-labelledby="title">
-    <h2 id="title">@ViewBag.Title.</h2>
-
-    <p class="text-success">@ViewBag.StatusMessage</p>
-    <div>
-        <h4>Cambiar la configuración de la cuenta</h4>
-        <hr />
-        <dl class="dl-horizontal">
-            <dt>Contraseña:</dt>
-            <dd>
-                [
-                @if (Model.HasPassword)
-                {
-                    @Html.ActionLink("Cambiar la contraseña", "ChangePassword")
-                }
-                else
-                {
-                    @Html.ActionLink("Crear", "SetPassword")
-                }
-                ]
-            </dd>
-            <dt>Inicios de sesión externos:</dt>
-            <dd>
-                @Model.Logins.Count [
-                @Html.ActionLink("Manage", "ManageLogins") ]
-            </dd>
-              
-            <dt>Número de teléfono:</dt>
-            <dd>
-                @(Model.PhoneNumber ?? "None")
-                @if (Model.PhoneNumber != null)
-                {
-                    <br />
-                    <text>[&nbsp;&nbsp;@Html.ActionLink("Change", "AddPhoneNumber")&nbsp;&nbsp;]</text>
-                    using (Html.BeginForm("RemovePhoneNumber", "Manage", FormMethod.Post, new { role = "form" }))
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8 col-lg-7">
+            <div class="card shadow">
+                <div class="card-body">
+                    <h2 class="card-title mb-4 text-center">@ViewBag.Title</h2>
+                    @if (!string.IsNullOrEmpty(ViewBag.StatusMessage))
                     {
-                        @Html.AntiForgeryToken()
-                        <text>[<input type="submit" value="Quitar" class="btn-link" />]</text>
+                        <div class="alert alert-success">@ViewBag.StatusMessage</div>
                     }
-                }
-                else
-                {
-                    <text>[&nbsp;&nbsp;@Html.ActionLink("Add", "AddPhoneNumber")&nbsp;&nbsp;]</text>
-                }
-            </dd>
-            
-        </dl>
+                    <h4 class="mb-3">Cambiar la configuración de la cuenta</h4>
+                    <hr />
+                    <dl class="row">
+                        <dt class="col-sm-4">Contraseña:</dt>
+                        <dd class="col-sm-8">
+                            [
+                            @if (Model.HasPassword)
+                            {
+                                @Html.ActionLink("Cambiar la contraseña", "ChangePassword", null, new { @class = "btn btn-link p-0" })
+                            }
+                            else
+                            {
+                                @Html.ActionLink("Crear", "SetPassword", null, new { @class = "btn btn-link p-0" })
+                            }
+                            ]
+                        </dd>
+                        <dt class="col-sm-4">Número de teléfono:</dt>
+                        <dd class="col-sm-8">H
+                            @(Model.PhoneNumber ?? "Ninguno")
+                            @if (Model.PhoneNumber != null)
+                            {
+                                <br />
+                                <span>
+                                    [@Html.ActionLink("Cambiar", "AddPhoneNumber", null, new { @class = "btn btn-link p-0" })]
+                                    @using (Html.BeginForm("RemovePhoneNumber", "Manage", FormMethod.Post, new { role = "form", @class = "d-inline" }))
+                                    {
+                                        @Html.AntiForgeryToken()
+                                        <input type="submit" value="Quitar" class="btn btn-link p-0" />
+                                    }
+                                </span>
+                            }
+                            else
+                            {
+                                <span>
+                                    [@Html.ActionLink("Agregar", "AddPhoneNumber", null, new { @class = "btn btn-link p-0" })]
+                                </span>
+                            }
+                        </dd>
+                    </dl>
+                </div>
+            </div>
+        </div>
     </div>
-</main>
+</div>

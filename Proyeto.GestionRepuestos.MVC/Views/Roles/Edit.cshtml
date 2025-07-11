@@ -2,16 +2,36 @@
 @{
     ViewBag.Title = "Editar Rol";
 }
-<h2>Editar Rol</h2>
-@using (Html.BeginForm())
-{
-    @Html.AntiForgeryToken()
-    @Html.HiddenFor(m => m.Id)
-    <div class="form-group">
-        <label for="name">Nombre del rol</label>
-        @Html.TextBox("name", Model.Name, new { @class = "form-control", required = "required" })
+
+<div class="container mt-4">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card shadow-sm">
+                <div class="card-header bg-primary text-white">
+                    <h2 class="mb-0">Editar Rol</h2>
+                </div>
+                <div class="card-body">
+                    @using (Html.BeginForm())
+                    {
+                        @Html.AntiForgeryToken()
+                        @Html.HiddenFor(m => m.Id)
+                        <div class="mb-3">
+                            <label for="name" class="form-label">Nombre del rol</label>
+                            @Html.TextBox("name", Model.Name, new { @class = "form-control", required = "required" })
+                        </div>
+                        <div class="d-flex gap-2">
+                            <button type="submit" class="btn btn-primary">Guardar</button>
+                            @Html.ActionLink("Volver a la lista", "Index", null, new { @class = "btn btn-secondary" })
+                        </div>
+                    }
+                    @if (!ViewData.ModelState.IsValid)
+                    {
+                        <div class="alert alert-danger mt-3">
+                            @Html.ValidationSummary()
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
     </div>
-    <button type="submit" class="btn btn-primary">Guardar</button>
-    @Html.ActionLink("Volver a la lista", "Index", null, new { @class = "btn btn-default" })
-}
-@Html.ValidationSummary()
+</div>

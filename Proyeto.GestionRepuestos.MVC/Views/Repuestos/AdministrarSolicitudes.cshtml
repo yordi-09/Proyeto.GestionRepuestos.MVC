@@ -1,67 +1,54 @@
 ﻿@model IEnumerable<Proyeto.GestionRepuestos.MVC.Models.SolicitudRepuesto>
 
 @{
-    ViewBag.Title = "SolicitudRepuesto";
+    ViewBag.Title = "Administrar solicitudes de repuesto";
 }
 
-<h2>Administrar solicitudes de repuesto</h2>
-
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.Repuesto.Nombre)
-        </th>
-        <th>
-            Nombre del solicitador
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Repuesto.CantidadDisponible)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.CantidadSolicitada)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.FechaSolicitud)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Estado)
-        </th>
-        <th></th>
-    </tr>
-
-    @foreach (var item in Model)
-    {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Repuesto.Nombre)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.UsuarioSolicitador.Nombre)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Repuesto.CantidadDisponible)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.CantidadSolicitada)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.FechaSolicitud)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Estado)
-            </td>
-            <td>
-                @if (item.Repuesto.CantidadDisponible > item.CantidadSolicitada &&
-                     item.Estado == Proyeto.GestionRepuestos.MVC.Models.Enumerados.EstadoSolicitud.Pendiente)
-                {
-                    @Html.ActionLink("Entregar", "Entregar", new { id = item.Id })
-                }
-                else
-                {
-                    <span class="text-muted">No disponible la entrega</span>
-                }
-            </td>
-        </tr>
-    }
-
-</table>
+<div class="container mt-4">
+    <div class="card shadow-sm">
+        <div class="card-header bg-primary text-white">
+            <h2 class="mb-0">@ViewBag.Title</h2>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-bordered table-hover align-middle">
+                    <thead class="table-light">
+                        <tr>
+                            <th>@Html.DisplayNameFor(model => model.Repuesto.Nombre)</th>
+                            <th>Nombre del solicitador</th>
+                            <th>@Html.DisplayNameFor(model => model.Repuesto.CantidadDisponible)</th>
+                            <th>@Html.DisplayNameFor(model => model.CantidadSolicitada)</th>
+                            <th>@Html.DisplayNameFor(model => model.FechaSolicitud)</th>
+                            <th>@Html.DisplayNameFor(model => model.Estado)</th>
+                            <th>Acción</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>@Html.DisplayFor(modelItem => item.Repuesto.Nombre)</td>
+                                <td>@Html.DisplayFor(modelItem => item.UsuarioSolicitador.Nombre)</td>
+                                <td>@Html.DisplayFor(modelItem => item.Repuesto.CantidadDisponible)</td>
+                                <td>@Html.DisplayFor(modelItem => item.CantidadSolicitada)</td>
+                                <td>@Html.DisplayFor(modelItem => item.FechaSolicitud)</td>
+                                <td>@Html.DisplayFor(modelItem => item.Estado)</td>
+                                <td>
+                                    @if (item.Repuesto.CantidadDisponible > item.CantidadSolicitada &&
+                                         item.Estado == Proyeto.GestionRepuestos.MVC.Models.Enumerados.EstadoSolicitud.Pendiente)
+                                    {
+                                        @Html.ActionLink("Entregar", "Entregar", new { id = item.Id }, new { @class = "btn btn-success btn-sm" })
+                                    }
+                                    else
+                                    {
+                                        <span class="text-muted">No disponible la entrega</span>
+                                    }
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

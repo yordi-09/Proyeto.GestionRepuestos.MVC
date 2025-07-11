@@ -3,40 +3,56 @@
     ViewBag.Title = "Administrar Repuestos";
 }
 
-<h2>@ViewBag.Title</h2>
-
-@if (TempData["EntregaSuccess"] != null)
-{
-    <div class="alert alert-success">@TempData["EntregaSuccess"]</div>
-}
-
-<br />
-<a href="@Url.Action("Create", "Repuestos")" class="btn btn-primary">Ingresar Nuevo Repuesto</a>
-<a href="@Url.Action("Solicitar", "Repuestos")" class="btn btn-info">Administrar solicitudes</a>
-<br /><br />
-
-<table class="table table-bordered">
-    <thead>
-        <tr>
-            <th>Nombre</th>
-            <th>Descripción</th>
-            <th>Cantidad</th>
-            <th>Precio</th>
-            <th>Acciones</th>
-        </tr>
-    </thead>
-    <tbody>
-    @foreach (var item in Model)
-    {
-        <tr>
-            <td>@item.Nombre</td>
-            <td>@item.Descripcion</td>
-            <td>@item.CantidadDisponible</td>
-            <td>@item.Precio.ToString("C")</td>
-            <td>
-                @Html.ActionLink("Entregar", "Entregar", new { id = item.Id }, new { @class = "btn btn-sm btn-success" })
-            </td>
-        </tr>
-    }
-    </tbody>
-</table>
+<div class="container mt-4">
+    <div class="card shadow-sm">
+        <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+            <h2 class="mb-0">@ViewBag.Title</h2>
+            <div>
+                <a href="@Url.Action("Create", "Repuestos")" class="btn btn-light me-2">Ingresar Nuevo Repuesto</a>
+            </div>
+        </div>
+        <div class="card-body">
+            @if (TempData["SuccessMessage"] != null)
+            {
+                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                    @TempData["SuccessMessage"]
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            }
+            @if (TempData["EntregaSuccess"] != null)
+            {
+                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                    @TempData["EntregaSuccess"]
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            }
+            <div class="table-responsive">
+                <table class="table table-bordered table-hover align-middle">
+                    <thead class="table-light">
+                        <tr>
+                            <th>Nombre</th>
+                            <th>Descripción</th>
+                            <th>Cantidad</th>
+                            <th>Precio</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>@item.Nombre</td>
+                                <td>@item.Descripcion</td>
+                                <td>@item.CantidadDisponible</td>
+                                <td>@item.Precio.ToString("C")</td>
+                                <td>
+                                    @Html.ActionLink("Editar", "Edit", new { id = item.Id }, new { @class = "btn btn-sm btn-success" })
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

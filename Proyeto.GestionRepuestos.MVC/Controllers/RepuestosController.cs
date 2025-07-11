@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using System.Web.Mvc;
 using Microsoft.AspNet.Identity;
 using Proyeto.GestionRepuestos.MVC.Models;
+using System.Net;
 
 namespace Proyeto.GestionRepuestos.MVC.Controllers
 {
@@ -40,6 +41,38 @@ namespace Proyeto.GestionRepuestos.MVC.Controllers
             return View(repuesto);
         }
 
+        // GET: Repuestos/Edit/5
+        public async Task<ActionResult> Edit(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+
+            var repuesto = await db.Repuestos.FindAsync(id);
+            if (repuesto == null)
+            {
+                return HttpNotFound();
+            }
+
+            return View(repuesto);
+        }
+
+        // POST: Repuestos/Edit/5
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> Edit(Repuesto repuesto)
+        {
+            if (ModelState.IsValid)
+            {
+                db.Entry(repuesto).State = EntityState.Modified;
+                await db.SaveChangesAsync();
+                TempData["SuccessMessage"] = "Repuesto actualizado exitosamente.";
+                return RedirectToAction("Index");
+            }
+            return View(repuesto);
+        }
+
         // GET: Repuestos
         public async Task<ActionResult> AdministrarSolicitudes()
         {
@@ -48,8 +81,6 @@ namespace Proyeto.GestionRepuestos.MVC.Controllers
         }
 
         // GET: Repuestos/Entregar/5
-
-        //[AllowAnonymous]
         public async Task<ActionResult> Entregar(int? id)
         {
             if (id == null)
@@ -104,11 +135,7 @@ namespace Proyeto.GestionRepuestos.MVC.Controllers
         // GET: Repuestos/Solicitar
         public ActionResult Solicitar()
         {
-            //var mecanicoRoleId = db.Roles.Where(r => r.Name == "Mecanico").Select(r => r.Id).FirstOrDefault();
-            //ViewBag.Mecanicos = new SelectList(db.Users.Where(u => u.Roles.Any(ur => ur.RoleId == mecanicoRoleId)).ToList(), "IdUsuario", "NombreUsuario");
-
             ViewBag.Repuestos = new SelectList(db.Repuestos.Where(r => r.CantidadDisponible > 0).ToList(), "Id", "Nombre");
-
             return View();
         }
 
@@ -140,10 +167,18 @@ namespace Proyeto.GestionRepuestos.MVC.Controllers
                 CantidadSolicitada = cantidadSolicitada
             };
             db.SolicitudesRepuestos.Add(solicitud);
-            // Opcional: puedes descontar del inventario aquí si la política lo requiere
             await db.SaveChangesAsync();
             TempData["SolicitudSuccess"] = $"Solicitud registrada correctamente. {cantidadSolicitada} unidad(es) de '{repuesto.Nombre}' solicitadas.";
             return RedirectToAction("Solicitar");
+        }
+
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                db.Dispose();
+            }
+            base.Dispose(disposing);
         }
     }
 }

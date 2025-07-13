@@ -84,7 +84,7 @@ namespace Proyeto.GestionRepuestos.MVC.Controllers
         public async Task<ActionResult> Entregar(int? id)
         {
             if (id == null)
-                return new HttpStatusCodeResult(System.Net.HttpStatusCode.BadRequest);
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
 
             var solicitudRepuesto = await db.SolicitudesRepuestos.FindAsync(id);
 
@@ -129,13 +129,20 @@ namespace Proyeto.GestionRepuestos.MVC.Controllers
             await db.SaveChangesAsync();
 
             TempData["EntregaSuccess"] = $"Entrega registrada correctamente. {cantidadEntregada} unidad(es) de '{solicitud.Repuesto.Nombre}' entregadas a {solicitud.UsuarioSolicitador.Nombre}.";
-            return RedirectToAction("Index");
+            return RedirectToAction("AdministrarSolicitudes");
         }
 
         // GET: Repuestos/Solicitar
         public ActionResult Solicitar()
         {
             ViewBag.Repuestos = new SelectList(db.Repuestos.Where(r => r.CantidadDisponible > 0).ToList(), "Id", "Nombre");
+            var userId = User.Identity.GetUserId();
+            var solicitudesUsuario = db.SolicitudesRepuestos
+                .Include("Repuesto")
+                .Where(s => s.UsuarioSolicitadorId == userId)
+                .OrderByDescending(s => s.FechaSolicitud)
+                .ToList();
+            ViewBag.SolicitudesUsuario = solicitudesUsuario;
             return View();
         }
 

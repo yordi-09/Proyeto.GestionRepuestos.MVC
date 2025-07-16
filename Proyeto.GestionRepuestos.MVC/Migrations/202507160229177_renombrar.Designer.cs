@@ -6,14 +6,14 @@ namespace Proyeto.GestionRepuestos.MVC.Migrations
     using System.Data.Entity.Migrations.Infrastructure;
     using System.Resources;
     
-    [GeneratedCode("EntityFramework.Migrations", "6.4.4")]
-    public sealed partial class UpdateModelsV3 : IMigrationMetadata
+    [GeneratedCode("EntityFramework.Migrations", "6.5.1")]
+    public sealed partial class renombrar : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(UpdateModelsV3));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(renombrar));
         
         string IMigrationMetadata.Id
         {
-            get { return "202507061931335_UpdateModelsV3"; }
+            get { return "202507160229177_renombrar"; }
         }
         
         string IMigrationMetadata.Source

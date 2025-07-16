@@ -6,14 +6,14 @@ namespace Proyeto.GestionRepuestos.MVC.Migrations
     using System.Data.Entity.Migrations.Infrastructure;
     using System.Resources;
     
-    [GeneratedCode("EntityFramework.Migrations", "6.4.4")]
-    public sealed partial class Inicial : IMigrationMetadata
+    [GeneratedCode("EntityFramework.Migrations", "6.5.1")]
+    public sealed partial class AjusteBD : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(Inicial));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(AjusteBD));
         
         string IMigrationMetadata.Id
         {
-            get { return "202507061653524_Inicial"; }
+            get { return "202507160215007_Ajuste-BD"; }
         }
         
         string IMigrationMetadata.Source

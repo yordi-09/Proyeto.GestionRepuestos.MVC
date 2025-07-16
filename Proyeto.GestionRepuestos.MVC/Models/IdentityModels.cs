@@ -26,6 +26,8 @@ namespace Proyeto.GestionRepuestos.MVC.Models
         public ApplicationDbContext()
             : base("DefaultConnection", throwIfV1Schema: false)
         {
+            // Disable database initializer to prevent automatic migrations
+            Database.SetInitializer<ApplicationDbContext>(null);
         }
 
         public static ApplicationDbContext Create()
@@ -53,11 +55,10 @@ namespace Proyeto.GestionRepuestos.MVC.Models
                 .HasForeignKey(e => e.UsuarioEntregadorId)
                 .WillCascadeOnDelete(false);
 
+            // Nombres de tabla exactos
             modelBuilder.Entity<Repuesto>().ToTable("Repuesto");
-
             modelBuilder.Entity<SolicitudRepuesto>().ToTable("SolicitudRepuesto");
-
-            //modelBuilder.Entity<EntregaRepuesto>().ToTable("EntregaRepuesto");
+            modelBuilder.Entity<EntregaRepuesto>().ToTable("EntregaRepuesto");
         }
     }
 }

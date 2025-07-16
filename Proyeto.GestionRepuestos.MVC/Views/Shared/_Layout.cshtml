@@ -34,7 +34,7 @@
                                 <li>@Html.ActionLink("Registrar Usuario", "Register", "Account", routeValues: null, htmlAttributes: new { id = "registerLink", @class = "nav-link" })</li>
                                 <li>@Html.ActionLink("Administrar Roles", "Index", "Roles", new { area = "" }, new { @class = "nav-link" })</li>
                             }
-                            else if (User.IsInRole("Mecanico"))
+                            else if (User.IsInRole("MecanicoTaller"))
                             {
                                 <li>@Html.ActionLink("Solicitar Repuestos", "Solicitar", "Repuestos", null, new { @class = "nav-link" })</li>
                             }

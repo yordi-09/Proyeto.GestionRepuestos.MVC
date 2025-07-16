@@ -38,6 +38,14 @@
                                          item.Estado == Proyeto.GestionRepuestos.MVC.Models.Enumerados.EstadoSolicitud.Pendiente)
                                     {
                                         @Html.ActionLink("Entregar", "Entregar", new { id = item.Id }, new { @class = "btn btn-success btn-sm" })
+                                        using (Html.BeginForm("Rechazar", "Repuestos", new { id = item.Id }, FormMethod.Post, new { style = "display:inline;" }))
+                                        {
+                                            @Html.AntiForgeryToken()
+                                            <button type="submit" class="btn btn-danger btn-sm"
+                                                    onclick="return confirm('¿Está seguro que desea rechazar esta solicitud?');">
+                                                Rechazar
+                                            </button>
+                                        }
                                     }
                                     else
                                     {

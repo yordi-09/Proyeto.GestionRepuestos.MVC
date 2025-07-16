@@ -346,7 +346,7 @@ namespace Proyeto.GestionRepuestos.MVC.Controllers
             base.Dispose(disposing);
         }
 
-#region Aplicaciones auxiliares
+        #region Aplicaciones auxiliares
         // Se usa para la protección XSRF al agregar inicios de sesión externos
         private const string XsrfKey = "XsrfId";
 
@@ -376,16 +376,6 @@ namespace Proyeto.GestionRepuestos.MVC.Controllers
             return false;
         }
 
-        private bool HasPhoneNumber()
-        {
-            var user = UserManager.FindById(User.Identity.GetUserId());
-            if (user != null)
-            {
-                return user.PhoneNumber != null;
-            }
-            return false;
-        }
-
         public enum ManageMessageId
         {
             AddPhoneSuccess,
@@ -397,6 +387,6 @@ namespace Proyeto.GestionRepuestos.MVC.Controllers
             Error
         }
 
-#endregion
+        #endregion
     }
 }

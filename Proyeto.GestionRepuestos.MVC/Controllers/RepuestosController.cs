@@ -132,6 +132,30 @@ namespace Proyeto.GestionRepuestos.MVC.Controllers
             return RedirectToAction("AdministrarSolicitudes");
         }
 
+        // POST: Repuestos/Rechazar/5
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> Rechazar(int id)
+        {
+            var solicitud = await db.SolicitudesRepuestos.FindAsync(id);
+            if (solicitud == null)
+            {
+                return HttpNotFound();
+            }
+
+            if (solicitud.Estado != Models.Enumerados.EstadoSolicitud.Pendiente)
+            {
+                TempData["Error"] = "Solo se pueden rechazar solicitudes pendientes.";
+                return RedirectToAction("AdministrarSolicitudes");
+            }
+
+            solicitud.Estado = Models.Enumerados.EstadoSolicitud.Rechazada;
+            await db.SaveChangesAsync();
+
+            TempData["SuccessMessage"] = $"Solicitud de '{solicitud.Repuesto.Nombre}' rechazada correctamente.";
+            return RedirectToAction("AdministrarSolicitudes");
+        }
+
         // GET: Repuestos/Solicitar
         public ActionResult Solicitar()
         {

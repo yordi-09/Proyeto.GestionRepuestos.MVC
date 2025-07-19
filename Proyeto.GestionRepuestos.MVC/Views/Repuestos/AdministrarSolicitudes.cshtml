@@ -1,0 +1,99 @@
+﻿@model IEnumerable<Proyeto.GestionRepuestos.MVC.Models.SolicitudRepuesto>
+
+@{
+    ViewBag.Title = "Administrar solicitudes de repuesto";
+}
+
+<div class="container mt-4">
+    <div class="card shadow-sm">
+        <div class="card-header bg-primary text-white">
+            <h2 class="mb-0">@ViewBag.Title</h2>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-bordered table-hover align-middle">
+                    <thead class="table-light">
+                        <tr>
+                            <th>@Html.DisplayNameFor(model => model.Repuesto.Nombre)</th>
+                            <th>Nombre del solicitador</th>
+                            <th>@Html.DisplayNameFor(model => model.Repuesto.CantidadDisponible)</th>
+                            <th>@Html.DisplayNameFor(model => model.CantidadSolicitada)</th>
+                            <th>@Html.DisplayNameFor(model => model.FechaSolicitud)</th>
+                            <th>@Html.DisplayNameFor(model => model.Estado)</th>
+                            <th>Acción</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>@Html.DisplayFor(modelItem => item.Repuesto.Nombre)</td>
+                                <td>@Html.DisplayFor(modelItem => item.UsuarioSolicitador.Nombre)</td>
+                                <td>@Html.DisplayFor(modelItem => item.Repuesto.CantidadDisponible)</td>
+                                <td>@Html.DisplayFor(modelItem => item.CantidadSolicitada)</td>
+                                <td>@Html.DisplayFor(modelItem => item.FechaSolicitud)</td>
+                                <td>@Html.DisplayFor(modelItem => item.Estado)</td>
+                                <td>
+                                    @if (item.Repuesto.CantidadDisponible > item.CantidadSolicitada &&
+                                         item.Estado == Proyeto.GestionRepuestos.MVC.Models.Enumerados.EstadoSolicitud.Pendiente)
+                                    {
+                                        @Html.ActionLink("Entregar", "Entregar", new { id = item.Id }, new { @class = "btn btn-success btn-sm" })
+                                        using (Html.BeginForm("Rechazar", "Repuestos", new { id = item.Id }, FormMethod.Post, new { id = $"formRechazar_{item.Id}", style = "display:inline;" }))
+                                        {
+                                            @Html.AntiForgeryToken()
+                                            <button type="button" class="btn btn-danger btn-sm"
+                                                    data-bs-toggle="modal"
+                                                    data-bs-target="#modalRechazar"
+                                                    data-id="@item.Id">
+                                                Rechazar
+                                            </button>
+                                        }
+                                    }
+                                    else
+                                    {
+                                        <span class="text-muted">No aplica</span>
+                                    }
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal de Confirmación -->
+<div class="modal fade" id="modalRechazar" tabindex="-1" aria-labelledby="modalRechazarLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalRechazarLabel">Confirmar Rechazo</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                ¿Está seguro que desea rechazar esta solicitud?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn btn-danger" id="btnConfirmarRechazo">Confirmar Rechazo</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        let formIdActual = '';
+
+        $('#modalRechazar').on('show.bs.modal', function (event) {
+            var button = $(event.relatedTarget);
+            var id = button.data('id');
+            formIdActual = `formRechazar_${id}`;
+        });
+
+        $('#btnConfirmarRechazo').click(function () {
+            document.getElementById(formIdActual).submit();
+        });
+    </script>
+}

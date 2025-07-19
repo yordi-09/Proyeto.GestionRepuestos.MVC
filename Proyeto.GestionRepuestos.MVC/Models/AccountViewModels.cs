@@ -65,6 +65,14 @@ namespace Proyeto.GestionRepuestos.MVC.Models
     public class RegisterViewModel
     {
         [Required]
+        [Display(Name = "Nombre")]
+        public string Nombre { get; set; }
+
+        [Required]
+        [Display(Name = "Apellido")]
+        public string Apellido { get; set; }
+
+        [Required]
         [EmailAddress]
         [Display(Name = "Correo electrónico")]
         public string Email { get; set; }
@@ -79,6 +87,12 @@ namespace Proyeto.GestionRepuestos.MVC.Models
         [Display(Name = "Confirmar contraseña")]
         [Compare("Password", ErrorMessage = "La contraseña y la contraseña de confirmación no coinciden.")]
         public string ConfirmPassword { get; set; }
+
+        [Required]
+        [Display(Name = "Rol")]
+        public string SelectedRole { get; set; }
+
+        public IEnumerable<System.Web.Mvc.SelectListItem> Roles { get; set; }
     }
 
     public class ResetPasswordViewModel

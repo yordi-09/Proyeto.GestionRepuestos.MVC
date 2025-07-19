@@ -1,0 +1,35 @@
+@{
+    ViewBag.Title = "Crear rol";
+}
+
+<div class="container mt-4">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card shadow-sm">
+                <div class="card-header bg-primary text-white">
+                    <h2 class="mb-0">@ViewBag.Title</h2>
+                </div>
+                <div class="card-body">
+                    @using (Html.BeginForm())
+                    {
+                        @Html.AntiForgeryToken()
+                        <div class="mb-3">
+                            <label for="name" class="form-label">Nombre del rol</label>
+                            <input type="text" name="name" class="form-control" required />
+                        </div>
+                        <div class="d-flex gap-2">
+                            <button type="submit" class="btn btn-primary">Crear rol</button>
+                            @Html.ActionLink("Volver a la lista", "Index", null, new { @class = "btn btn-secondary" })
+                        </div>
+                    }
+                    @if (!ViewData.ModelState.IsValid)
+                    {
+                        <div class="alert alert-danger mt-3">
+                            @Html.ValidationSummary()
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

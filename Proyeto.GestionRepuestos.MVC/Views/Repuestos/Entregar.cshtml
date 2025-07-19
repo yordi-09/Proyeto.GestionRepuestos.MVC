@@ -1,6 +1,6 @@
 @model Proyeto.GestionRepuestos.MVC.Models.SolicitudRepuesto
 @{
-    ViewBag.Title = "Entregar Repuesto";
+    ViewBag.Title = "Entregar repuesto";
 }
 
 <div class="container mt-4">
@@ -36,8 +36,8 @@
                             <input type="number" id="cantidadEntregada" name="cantidadEntregada" class="form-control" min="1" max="@Model.CantidadSolicitada" required />
                         </div>
                         <div class="d-flex gap-2">
-                            <button type="submit" class="btn btn-success">Registrar Entrega</button>
-                            <a href="@Url.Action("Index", "Repuestos")" class="btn btn-secondary">Cancelar</a>
+                            <button type="submit" class="btn btn-success">Registrar entrega</button>
+                            <a href="@Url.Action("AdministrarSolicitudes", "Repuestos")" class="btn btn-secondary">Cancelar</a>
                         </div>
                     }
                     @if (!ViewData.ModelState.IsValid)

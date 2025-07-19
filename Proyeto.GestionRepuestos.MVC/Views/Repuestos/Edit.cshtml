@@ -1,6 +1,6 @@
 @model Proyeto.GestionRepuestos.MVC.Models.Repuesto
 @{
-    ViewBag.Title = "Editar Repuesto";
+    ViewBag.Title = "Editar repuesto";
 }
 
 <div class="container mt-4">
@@ -25,15 +25,17 @@
                         @Html.HiddenFor(m => m.Id)
                         @Html.HiddenFor(m => m.FechaIngreso)
 
-                        <div class="mb-3">
-                            @Html.LabelFor(m => m.Nombre, new { @class = "form-label" })
-                            @Html.TextBoxFor(m => m.Nombre, new { @class = "form-control" })
-                            @Html.ValidationMessageFor(m => m.Nombre, "", new { @class = "text-danger" })
-                        </div>
-                        <div class="mb-3">
-                            @Html.LabelFor(m => m.Descripcion, new { @class = "form-label" })
-                            @Html.TextAreaFor(m => m.Descripcion, new { @class = "form-control", rows = "3" })
-                            @Html.ValidationMessageFor(m => m.Descripcion, "", new { @class = "text-danger" })
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                @Html.LabelFor(m => m.Nombre, new { @class = "form-label" })
+                                @Html.TextBoxFor(m => m.Nombre, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(m => m.Nombre, "", new { @class = "text-danger" })
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                @Html.LabelFor(m => m.Descripcion, new { @class = "form-label" })
+                                @Html.TextAreaFor(m => m.Descripcion, new { @class = "form-control", rows = "3" })
+                                @Html.ValidationMessageFor(m => m.Descripcion, "", new { @class = "text-danger" })
+                            </div>
                         </div>
                         <div class="row">
                             <div class="col-md-6 mb-3">
@@ -47,8 +49,8 @@
                                 @Html.ValidationMessageFor(m => m.Precio, "", new { @class = "text-danger" })
                             </div>
                         </div>
-                        <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-                            <button type="submit" class="btn btn-primary me-md-2">Guardar Cambios</button>
+                        <div class="d-flex gap-2">
+                            <button type="submit" class="btn btn-primary me-md-2">Editar</button>
                             @Html.ActionLink("Cancelar", "Index", null, new { @class = "btn btn-secondary" })
                         </div>
                     }

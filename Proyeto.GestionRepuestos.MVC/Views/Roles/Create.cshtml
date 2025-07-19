@@ -1,5 +1,5 @@
 @{
-    ViewBag.Title = "Crear Rol";
+    ViewBag.Title = "Crear rol";
 }
 
 <div class="container mt-4">
@@ -7,7 +7,7 @@
         <div class="col-md-6">
             <div class="card shadow-sm">
                 <div class="card-header bg-primary text-white">
-                    <h2 class="mb-0">Crear Nuevo Rol</h2>
+                    <h2 class="mb-0">@ViewBag.Title</h2>
                 </div>
                 <div class="card-body">
                     @using (Html.BeginForm())
@@ -17,8 +17,8 @@
                             <label for="name" class="form-label">Nombre del rol</label>
                             <input type="text" name="name" class="form-control" required />
                         </div>
-                        <div class="d-flex justify-content-between">
-                            <button type="submit" class="btn btn-primary">Crear Rol</button>
+                        <div class="d-flex gap-2">
+                            <button type="submit" class="btn btn-primary">Crear rol</button>
                             @Html.ActionLink("Volver a la lista", "Index", null, new { @class = "btn btn-secondary" })
                         </div>
                     }

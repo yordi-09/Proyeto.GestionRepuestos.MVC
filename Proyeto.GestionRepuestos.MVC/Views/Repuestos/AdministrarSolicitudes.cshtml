@@ -38,11 +38,13 @@
                                          item.Estado == Proyeto.GestionRepuestos.MVC.Models.Enumerados.EstadoSolicitud.Pendiente)
                                     {
                                         @Html.ActionLink("Entregar", "Entregar", new { id = item.Id }, new { @class = "btn btn-success btn-sm" })
-                                        using (Html.BeginForm("Rechazar", "Repuestos", new { id = item.Id }, FormMethod.Post, new { style = "display:inline;" }))
+                                        using (Html.BeginForm("Rechazar", "Repuestos", new { id = item.Id }, FormMethod.Post, new { id = $"formRechazar_{item.Id}", style = "display:inline;" }))
                                         {
                                             @Html.AntiForgeryToken()
-                                            <button type="submit" class="btn btn-danger btn-sm"
-                                                    onclick="return confirm('¿Está seguro que desea rechazar esta solicitud?');">
+                                            <button type="button" class="btn btn-danger btn-sm"
+                                                    data-bs-toggle="modal"
+                                                    data-bs-target="#modalRechazar"
+                                                    data-id="@item.Id">
                                                 Rechazar
                                             </button>
                                         }
@@ -60,3 +62,38 @@
         </div>
     </div>
 </div>
+
+<!-- Modal de Confirmación -->
+<div class="modal fade" id="modalRechazar" tabindex="-1" aria-labelledby="modalRechazarLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalRechazarLabel">Confirmar Rechazo</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                ¿Está seguro que desea rechazar esta solicitud?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn btn-danger" id="btnConfirmarRechazo">Confirmar Rechazo</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        let formIdActual = '';
+
+        $('#modalRechazar').on('show.bs.modal', function (event) {
+            var button = $(event.relatedTarget);
+            var id = button.data('id');
+            formIdActual = `formRechazar_${id}`;
+        });
+
+        $('#btnConfirmarRechazo').click(function () {
+            document.getElementById(formIdActual).submit();
+        });
+    </script>
+}

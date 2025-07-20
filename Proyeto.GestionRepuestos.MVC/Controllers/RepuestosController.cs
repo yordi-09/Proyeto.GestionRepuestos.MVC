@@ -1,10 +1,10 @@
-using System.Data.Entity;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Web.Mvc;
 using Microsoft.AspNet.Identity;
 using Proyeto.GestionRepuestos.MVC.Models;
+using System.Data.Entity;
+using System.Linq;
 using System.Net;
+using System.Threading.Tasks;
+using System.Web.Mvc;
 
 namespace Proyeto.GestionRepuestos.MVC.Controllers
 {
@@ -14,6 +14,7 @@ namespace Proyeto.GestionRepuestos.MVC.Controllers
         private ApplicationDbContext db = new ApplicationDbContext();
 
         // GET: Repuestos
+        [Authorize(Roles = "EncargadoBodega")]
         public async Task<ActionResult> Index()
         {
             var repuestos = await db.Repuestos.ToListAsync();
@@ -21,6 +22,7 @@ namespace Proyeto.GestionRepuestos.MVC.Controllers
         }
 
         // GET: Repuestos/Create
+        [Authorize(Roles = "EncargadoBodega")]
         public ActionResult Create()
         {
             return View();
@@ -29,6 +31,7 @@ namespace Proyeto.GestionRepuestos.MVC.Controllers
         // POST: Repuestos/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "EncargadoBodega")]
         public async Task<ActionResult> Create(Repuesto repuesto)
         {
             if (ModelState.IsValid)
@@ -42,6 +45,7 @@ namespace Proyeto.GestionRepuestos.MVC.Controllers
         }
 
         // GET: Repuestos/Edit/5
+        [Authorize(Roles = "EncargadoBodega")]
         public async Task<ActionResult> Edit(int? id)
         {
             if (id == null)
@@ -61,6 +65,7 @@ namespace Proyeto.GestionRepuestos.MVC.Controllers
         // POST: Repuestos/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "EncargadoBodega")]
         public async Task<ActionResult> Edit(Repuesto repuesto)
         {
             if (ModelState.IsValid)
@@ -74,6 +79,7 @@ namespace Proyeto.GestionRepuestos.MVC.Controllers
         }
 
         // GET: Repuestos
+        [Authorize(Roles = "EncargadoBodega")]
         public async Task<ActionResult> AdministrarSolicitudes()
         {
             var solicitudesRepuestos = await db.SolicitudesRepuestos.ToListAsync();
@@ -81,6 +87,7 @@ namespace Proyeto.GestionRepuestos.MVC.Controllers
         }
 
         // GET: Repuestos/Entregar/5
+        [Authorize(Roles = "EncargadoBodega")]
         public async Task<ActionResult> Entregar(int? id)
         {
             if (id == null)
@@ -97,6 +104,7 @@ namespace Proyeto.GestionRepuestos.MVC.Controllers
         // POST: Repuestos/Entregar
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "EncargadoBodega")]
         public async Task<ActionResult> Entregar(int id, int cantidadEntregada)
         {
             var solicitud = await db.SolicitudesRepuestos.FindAsync(id);
@@ -135,6 +143,7 @@ namespace Proyeto.GestionRepuestos.MVC.Controllers
         // POST: Repuestos/Rechazar/5
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "EncargadoBodega")]
         public async Task<ActionResult> Rechazar(int id)
         {
             var solicitud = await db.SolicitudesRepuestos.FindAsync(id);
@@ -157,6 +166,7 @@ namespace Proyeto.GestionRepuestos.MVC.Controllers
         }
 
         // GET: Repuestos/Solicitar
+        [Authorize(Roles = "MecanicoTaller")]
         public ActionResult Solicitar()
         {
             ViewBag.Repuestos = new SelectList(db.Repuestos.Where(r => r.CantidadDisponible > 0).ToList(), "Id", "Nombre");
@@ -173,6 +183,7 @@ namespace Proyeto.GestionRepuestos.MVC.Controllers
         // POST: Repuestos/Solicitar
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "MecanicoTaller")]
         public async Task<ActionResult> Solicitar(int repuestoId, int cantidadSolicitada)
         {
             var repuesto = await db.Repuestos.FindAsync(repuestoId);

@@ -27,22 +27,19 @@
                     <ul class="navbar-nav flex-grow-1">
                         <li>@Html.ActionLink("Inicio", "Index", "Home", new { area = "" }, new { @class = "nav-link" })</li>
 
-                        @if (Request.IsAuthenticated)
+                        @if (User.IsInRole("Administrador"))
                         {
-                            if (User.IsInRole("Administrador"))
-                            {
-                                <li>@Html.ActionLink("Registrar Usuario", "Register", "Account", routeValues: null, htmlAttributes: new { id = "registerLink", @class = "nav-link" })</li>
-                                <li>@Html.ActionLink("Administrar Roles", "Index", "Roles", new { area = "" }, new { @class = "nav-link" })</li>
-                            }
-                            else if (User.IsInRole("MecanicoTaller"))
-                            {
-                                <li>@Html.ActionLink("Solicitar Repuestos", "Solicitar", "Repuestos", null, new { @class = "nav-link" })</li>
-                            }
-                            else if (User.IsInRole("EncargadoBodega"))
-                            {
-                                <li>@Html.ActionLink("Repuestos", "Index", "Repuestos", null, new { @class = "nav-link" })</li>
-                                <li>@Html.ActionLink("Administrar solicitudes de  repuestos", "AdministrarSolicitudes", "Repuestos", null, new { @class = "nav-link" })</li>
-                            }
+                            <li>@Html.ActionLink("Registrar Usuario", "Register", "Account", routeValues: null, htmlAttributes: new { id = "registerLink", @class = "nav-link" })</li>
+                            <li>@Html.ActionLink("Administrar Roles", "Index", "Roles", new { area = "" }, new { @class = "nav-link" })</li>
+                        }
+                        else if (User.IsInRole("MecanicoTaller"))
+                        {
+                            <li>@Html.ActionLink("Solicitar Repuestos", "Solicitar", "Repuestos", null, new { @class = "nav-link" })</li>
+                        }
+                        else if (User.IsInRole("EncargadoBodega"))
+                        {
+                            <li>@Html.ActionLink("Repuestos", "Index", "Repuestos", null, new { @class = "nav-link" })</li>
+                            <li>@Html.ActionLink("Administrar solicitudes de  repuestos", "AdministrarSolicitudes", "Repuestos", null, new { @class = "nav-link" })</li>
                         }
                     </ul>
                     @Html.Partial("_LoginPartial")

@@ -71,8 +71,6 @@ namespace Proyeto.GestionRepuestos.MVC.Controllers
                 return View(model);
             }
 
-            // No cuenta los errores de inicio de sesión para el bloqueo de la cuenta
-            // Para permitir que los errores de contraseña desencadenen el bloqueo de la cuenta, cambie a shouldLockout: true
             var result = await SignInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, shouldLockout: false);
             switch (result)
             {
@@ -128,14 +126,12 @@ namespace Proyeto.GestionRepuestos.MVC.Controllers
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
-                    //await SignInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false); 
-                    // Asignar el rol seleccionado
                     await UserManager.AddToRoleAsync(user.Id, model.SelectedRole);
                     return RedirectToAction("RegistroExitoso", "Account");
                 }
                 AddErrors(result);
             }
-            // Si llegamos a este punto, es que se ha producido un error y volvemos a mostrar el formulario
+
             var roleManager = HttpContext.GetOwinContext().Get<ApplicationRoleManager>();
             model.Roles = roleManager.Roles.Select(r => new SelectListItem
             {
